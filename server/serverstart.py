@@ -19,6 +19,7 @@ def status():
         'status': True,
         'name': 'Lmes',
         'time':time.time(),
+        'version':'0.01'
 
     }
 
@@ -40,6 +41,7 @@ def send_sms():
             return flask.abort(400)
         if text == "":
             return flask.abort(400)
+
         if set(data.keys())!={'name','text'}:
             return flask.abort(400)
         message={
@@ -48,6 +50,7 @@ def send_sms():
              'text':text,
 
         }
+        #print(type(message["time"]))
         db.append(message)
         print(db)
         return {'ok': True}
@@ -67,5 +70,11 @@ def get_sms():
                 result.append(sms)
                 after=sms['time']
     return {'messages':result[:10]}
-
+@app.route("/last")
+def last_sms():
+    result = []
+    for sms in db:
+        if sms in db:
+                result.append(sms)
+    return {'messages':result[-1:-5:-1]}
 app.run()

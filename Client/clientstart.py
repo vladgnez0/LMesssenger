@@ -11,6 +11,7 @@ class Messenger(clientui.Ui_LMessenger):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+
         try :
             self.pushButton.pressed.connect(self.send_message)
             self.timer = QtCore.QTimer()
@@ -20,6 +21,22 @@ class Messenger(clientui.Ui_LMessenger):
             # TODO server killer
             print("Error server killer __init__ ",e)
             return
+    def sms_last(self):
+        try:
+            response = requests.get(
+                'http://127.0.0.1:5000/last',
+
+
+            )
+            messages = response.json()['messages']
+            for sms in messages:
+                self.print_message(sms)
+                after = sms['time']
+        except  Exception as e:
+            # TODO server killer
+            print("Error server killer last sms ", e)
+            return
+
     def send_message(self):
         name = self.lineEdit.text()
         sms = self.textEdit.toPlainText()
@@ -42,8 +59,13 @@ class Messenger(clientui.Ui_LMessenger):
             print("Error")
             return
         self.textEdit.setText('')
+
     def print_message(self,sms):
-        self.textBrowser.append(sms['name']+" "+ sms['text'])
+        struct = time.localtime(sms['time'])
+        self.textBrowser.append(time.strftime('%d.%m.%Y %H:%M', struct)+" " +
+                                sms['name']+"\n"+
+                                sms['text'])
+
     def get_messages(self):
         after =time.time()
         try:
@@ -65,5 +87,6 @@ class Messenger(clientui.Ui_LMessenger):
 app = QtWidgets.QApplication(sys.argv)
 window = Messenger()
 window.show()
+window.sms_last()
 print(type(window))
 app.exec()
