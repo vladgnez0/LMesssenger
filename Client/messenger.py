@@ -23,10 +23,7 @@ class Messenger(clientui.Ui_LMessenger,QtWidgets.QMainWindow):
             print("Error server killer __init__ ",e)
 
     def keyPressEvent(self, event):
-
-        print('press')
-        if event.key() == Qt.Key_Return:
-            print('success')
+        if event.key() == 16777220:
             self.send_message()
     def sms_last(self):
         try:

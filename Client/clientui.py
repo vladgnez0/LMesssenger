@@ -9,7 +9,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_LMessenger():
+class Ui_LMessenger(object):
     def setupUi(self, LMessenger):
         LMessenger.setObjectName("LMessenger")
         LMessenger.resize(481, 490)
