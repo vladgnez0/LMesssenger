@@ -7,7 +7,7 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-import sys
+
 
 
 class Ui_LMessenger(QtWidgets.QMainWindow):

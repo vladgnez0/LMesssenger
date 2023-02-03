@@ -62,6 +62,8 @@ def get_sms():
     global after
     try:
         result=[]
+        if len(db) > 5:
+            db.clear()
     except:
       return flask.abort(400)
     for sms in db:
@@ -77,4 +79,4 @@ def last_sms():
         if sms in db:
                 result.append(sms)
     return {'messages':result[-1:-5:-1]}
-app.run()
+app.run(host='195.43.142.160')
