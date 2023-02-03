@@ -3,10 +3,11 @@ import time
 import requests
 import clientui
 from PyQt6 import QtWidgets,QtCore
+from PyQt5.QtCore import Qt
 import sys
 
 
-class Messenger(clientui.Ui_LMessenger):
+class Messenger(clientui.Ui_LMessenger,QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -15,11 +16,18 @@ class Messenger(clientui.Ui_LMessenger):
             self.pushButton.pressed.connect(self.send_message)
             self.timer = QtCore.QTimer()
             self.timer.timeout.connect(self.get_messages)
-            self.timer.start(1000)
+            self.timer.start(3000)
+
         except  Exception as e:
             # TODO server killer
             print("Error server killer __init__ ",e)
-            return
+
+    def keyPressEvent(self, event):
+
+        print('press')
+        if event.key() == Qt.Key_Return:
+            print('success')
+            self.send_message()
     def sms_last(self):
         try:
             response = requests.get(
@@ -38,7 +46,7 @@ class Messenger(clientui.Ui_LMessenger):
 
     def send_message(self):
         name = self.lineEdit.text()
-        sms = self.textEdit.toPlainText()
+        sms = self.textEdit.text()
         try:
             print(name,sms)
             response=requests.post(

@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'StartBAR.ui'
+# Form implementation generated from reading ui file 'StartBARv2.ui'
 #
 # Created by: PyQt6 UI code generator 6.4.1
 #
@@ -9,8 +9,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-
-class Ui_LMessenger(QtWidgets.QMainWindow):
+class Ui_LMessenger():
     def setupUi(self, LMessenger):
         LMessenger.setObjectName("LMessenger")
         LMessenger.resize(481, 490)
@@ -22,9 +21,6 @@ class Ui_LMessenger(QtWidgets.QMainWindow):
         font.setPointSize(14)
         self.label.setFont(font)
         self.label.setObjectName("label")
-        self.textEdit = QtWidgets.QTextEdit(parent=self.centralwidget)
-        self.textEdit.setGeometry(QtCore.QRect(10, 420, 311, 41))
-        self.textEdit.setObjectName("textEdit")
         self.textBrowser = QtWidgets.QTextBrowser(parent=self.centralwidget)
         self.textBrowser.setGeometry(QtCore.QRect(20, 90, 451, 311))
         self.textBrowser.setObjectName("textBrowser")
@@ -34,8 +30,13 @@ class Ui_LMessenger(QtWidgets.QMainWindow):
         self.label_2 = QtWidgets.QLabel(parent=self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(250, 60, 101, 20))
         self.label_2.setObjectName("label_2")
-        self.pushButton = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(370, 420, 81, 41))
+        self.splitter = QtWidgets.QSplitter(parent=self.centralwidget)
+        self.splitter.setGeometry(QtCore.QRect(30, 410, 431, 51))
+        self.splitter.setOrientation(QtCore.Qt.Orientation.Horizontal)
+        self.splitter.setObjectName("splitter")
+        self.textEdit = QtWidgets.QLineEdit(parent=self.splitter)
+        self.textEdit.setObjectName("textEdit")
+        self.pushButton = QtWidgets.QPushButton(parent=self.splitter)
         self.pushButton.setObjectName("pushButton")
         LMessenger.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(parent=LMessenger)
@@ -51,6 +52,3 @@ class Ui_LMessenger(QtWidgets.QMainWindow):
         self.label.setText(_translate("LMessenger", "LMessenger"))
         self.label_2.setText(_translate("LMessenger", "Имя пользователя:="))
         self.pushButton.setText(_translate("LMessenger", "Отправить"))
-
-
-
