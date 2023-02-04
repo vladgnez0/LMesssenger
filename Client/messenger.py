@@ -3,10 +3,10 @@ import time
 import requests
 import clientui
 from PyQt6 import QtWidgets,QtCore
-from PyQt5.QtCore import Qt
-import sys
+import sql
+import ip
 
-
+after = time.time()
 class Messenger(clientui.Ui_LMessenger,QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
@@ -28,7 +28,7 @@ class Messenger(clientui.Ui_LMessenger,QtWidgets.QMainWindow):
     def sms_last(self):
         try:
             response = requests.get(
-                'http://195.43.142.160:5000/last',
+                'http://'+ip.ip+':5000/last',
 
 
             )
@@ -47,7 +47,7 @@ class Messenger(clientui.Ui_LMessenger,QtWidgets.QMainWindow):
         try:
             print(name,sms)
             response=requests.post(
-                'http://195.43.142.160:5000/send',
+                'http://'+ip.ip+':5000/send',
                 json={
                     'name':name,
                     'text':sms
@@ -60,29 +60,44 @@ class Messenger(clientui.Ui_LMessenger,QtWidgets.QMainWindow):
             return
         if response.status_code!=200:
             # TODO server killer
-            print("Error")
+            print("Error not status 200")
             return
         self.textEdit.setText('')
 
     def print_message(self,sms):
-        struct = time.localtime(sms['time'])
+        # print(1)
+        struct = time.localtime(sms[2])#date
         self.textBrowser.append(time.strftime('%d.%m.%Y %H:%M', struct)+" " +
-                                sms['name']+"\n"+
-                                sms['text'])
+                                sms[0]+"\n"+#name
+                                sms[1])#sms
+
 
     def get_messages(self):
-        after =time.time()
+        global after
         try:
             response = requests.get(
-                'http://195.43.142.160:5000/messages',
-                params={'after':after}
-
-            )
+                'http://'+ip.ip+':5000/messages',
+                params={'after':after})
             messages= response.json()['messages']
+            print(messages)
             for sms in messages:
-                self.print_message(sms)
-                after=sms['time']
+                if after<sms[2]:
+                    self.print_message(sms)
+                    after=sms[2]#time
         except  Exception as e:
             # TODO server killer
             print("Error server killer get_sms ",e)
             return
+    def sms_last(self):
+        try:
+            response = requests.get(
+                'http://' + ip.ip + ':5000/messages')
+            messages = response.json()['messages']
+            print(messages)
+            for sms in messages:
+                self.print_message(sms)
+        except  Exception as e:
+            # TODO server killer
+            print("Error server killer get_sms ", e)
+            return
+

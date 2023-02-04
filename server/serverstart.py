@@ -2,16 +2,9 @@
 import flask
 from flask import Flask,request
 import time
+import sql
 
 app= Flask(__name__)
-db=[
-       {'time': time.time(),
-        'name':'Jack',
-        'text':'Привет всем!',
-
-        }
-
-]
 
 @app.route("/status")
 def status():
@@ -50,9 +43,10 @@ def send_sms():
              'text':text,
 
         }
-        #print(type(message["time"]))
-        db.append(message)
-        print(db)
+        sql_=sql.sql_send()
+        sql_.sms_send(message)
+
+
         return {'ok': True}
     except:
         return {'ok': False,'code':flask.abort(400)}
@@ -62,21 +56,13 @@ def get_sms():
     global after
     try:
         result=[]
-        if len(db) > 5:
-            db.clear()
     except:
       return flask.abort(400)
-    for sms in db:
-        if sms in db:
-            if sms['time']>after:
-                result.append(sms)
-                after=sms['time']
+    a=sql.sql_get()
+    b=a.sms_get()
+    if b is None:
+        return #надо что то придумать
+    for sms in b:
+        result.append(sms)
     return {'messages':result[:10]}
-@app.route("/last")
-def last_sms():
-    result = []
-    for sms in db:
-        if sms in db:
-                result.append(sms)
-    return {'messages':result[-1:-5:-1]}
-app.run(host='195.43.142.160')
+app.run()
