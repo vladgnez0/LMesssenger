@@ -64,5 +64,5 @@ def get_sms():
         return #надо что то придумать
     for sms in b:
         result.append(sms)
-    return {'messages':result[:10]}
+    return {'messages':result}
 app.run()

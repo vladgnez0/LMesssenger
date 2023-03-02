@@ -16,7 +16,7 @@ class Messenger(clientui.Ui_LMessenger,QtWidgets.QMainWindow):
             self.pushButton.pressed.connect(self.send_message)
             self.timer = QtCore.QTimer()
             self.timer.timeout.connect(self.get_messages)
-            self.timer.start(3000)
+            self.timer.start(1000)
 
         except  Exception as e:
             # TODO server killer

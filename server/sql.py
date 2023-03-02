@@ -42,6 +42,7 @@ class sql_send(sql):
     def __init__(self):
         super().__init__()
     def sms_send(self,sms):
+        print("Новый запрос на добавление в базу данных ")
         try:
             self.cursor.execute(f"INSERT INTO sms_test "
                                 f"VALUES ('{sms['name']}', '{sms['text']}', {sms['time']});")
